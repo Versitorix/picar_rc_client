@@ -1,4 +1,4 @@
-# RC Server
+# RC Client
 
 Ce dépôt contient un client UDP servant a controller le PiCar de SunFounder avec une mannette DualShock 4.
 
