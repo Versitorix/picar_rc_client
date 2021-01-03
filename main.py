@@ -1,6 +1,6 @@
 from socket import socket, AF_INET, SOCK_DGRAM
-from time import time
 import pygame
+from math import trunc
 
 from lib.settings import SETTINGS
 from lib.network_objects.cameraCommand import CameraCommand
@@ -24,14 +24,14 @@ def controller_listener(controller_data):
     forward_speed = 0
 
     if backward_speed <= -1.0 and backward_speed <= 0:
-        backward_speed = round(controller_data['axis_data'][TRIGGER_LEFT] * -50, 0)
+        backward_speed = trunc(controller_data['axis_data'][TRIGGER_LEFT] * -50)
     else:
-        backward_speed = round(controller_data['axis_data'][TRIGGER_LEFT] * 50 + 50, 0)
+        backward_speed = trunc(controller_data['axis_data'][TRIGGER_LEFT] * 50 + 50)
 
     if forward_speed <= -1.0 and forward_speed <= 0:
-        forward_speed = round(controller_data['axis_data'][TRIGGER_RIGHT] * -50, 0)
+        forward_speed = trunc(controller_data['axis_data'][TRIGGER_RIGHT] * -50)
     else:
-        forward_speed = round(controller_data['axis_data'][TRIGGER_RIGHT] * 50 + 50, 0)
+        forward_speed = trunc(controller_data['axis_data'][TRIGGER_RIGHT] * 50 + 50)
 
     camera_command = CameraCommand('set_position', (pan, tilt))
     front_wheel_command = FrontWheelCommand('turn', front_wheels_angle)
