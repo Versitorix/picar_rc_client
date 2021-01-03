@@ -1,0 +1,5 @@
+{
+    "commands_port": 8001,
+    "connectivity_port": 8000,
+    "server_ip": "<SERVER IP>"
+}
