@@ -13,6 +13,7 @@
 # Distributed under terms of the MIT license.
 
 import pygame
+from time import sleep, time
 
 JOY_LEFT_Y = 1
 JOY_LEFT_X = 0
@@ -43,6 +44,7 @@ class PS4Controller(object):
         self.button_data = {}
         self.hat_data = {}
         self.listeners = []
+        self.last_check = time()
 
         for i in range(self.controller.get_numbuttons()):
             self.button_data[i] = False
@@ -59,29 +61,36 @@ class PS4Controller(object):
     def listen(self):
         while True:
             had_event = False
-            for event in pygame.event.get():
-                if event.type == pygame.JOYAXISMOTION:
-                    new_movement = round(event.value, 2)
-                    if new_movement != self.axis_data[event.axis]:
-                        had_event = True
-                        self.axis_data[event.axis] = new_movement
-                elif event.type == pygame.JOYBUTTONDOWN:
-                    if not self.button_data[event.button]:
-                        had_event = True
-                        self.button_data[event.button] = True
-                elif event.type == pygame.JOYBUTTONUP:
-                    if self.button_data[event.button]:
-                        had_event = True
-                        self.button_data[event.button] = False
-                elif event.type == pygame.JOYHATMOTION:
-                    if self.hat_data[event.hat] != event.value:
-                        had_event = True
-                        self.hat_data[event.hat] = event.value
+            now = time()
 
-            if had_event:
-                for listener in self.listeners:
-                    listener({
-                        "axis_data": self.axis_data,
-                        "button_data": self.button_data,
-                        "hat_data": self.hat_data
-                    })
+            if now - self.last_check > 0.1:
+                self.last_check = now
+
+                for event in pygame.event.get():
+                    if event.type == pygame.JOYAXISMOTION:
+                        new_movement = round(event.value, 2)
+                        if new_movement != self.axis_data[event.axis]:
+                            had_event = True
+                            self.axis_data[event.axis] = new_movement
+                    elif event.type == pygame.JOYBUTTONDOWN:
+                        if not self.button_data[event.button]:
+                            had_event = True
+                            self.button_data[event.button] = True
+                    elif event.type == pygame.JOYBUTTONUP:
+                        if self.button_data[event.button]:
+                            had_event = True
+                            self.button_data[event.button] = False
+                    elif event.type == pygame.JOYHATMOTION:
+                        if self.hat_data[event.hat] != event.value:
+                            had_event = True
+                            self.hat_data[event.hat] = event.value
+
+                if had_event:
+                    for listener in self.listeners:
+                        listener({
+                            "axis_data": self.axis_data,
+                            "button_data": self.button_data,
+                            "hat_data": self.hat_data
+                        })
+            else:
+                sleep(0.1)
