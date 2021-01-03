@@ -1,12 +1,12 @@
 # RC Client
 
-Ce dépôt contient un client UDP servant a controller le PiCar de SunFounder avec une mannette DualShock 4.
+Ce dépôt contient un client UDP servant a controller le PiCar de SunFounder avec une manette DualShock 4.
 
 ## Pré-requis
 
  - Python 3
  - Pygame
- - Mannette DualShock 4
+ - Manette DualShock 4
 
 ## Installation
 
@@ -17,7 +17,7 @@ Ce dépôt contient un client UDP servant a controller le PiCar de SunFounder av
 ## Utilisation
 
 Pour lancer le client, vous devez executer la commande suivante.
-Vous devez avoir un mannette DualShock 4 connectée.
+Vous devez avoir un manette DualShock 4 connectée.
 
 Windows:
 ```powershell
